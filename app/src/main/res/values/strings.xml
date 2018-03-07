@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SportTracker</string>
+
+    <string name="channel_group_name">tracker channel group</string>
+    <string name="channel_name">tracker service channel</string>
+    <string name="channel_description">tracker service notification</string>
+    <string name="service_notification_title">Tracking Service</string>
+</resources>
