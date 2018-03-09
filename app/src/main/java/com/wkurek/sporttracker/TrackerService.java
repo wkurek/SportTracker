@@ -25,8 +25,9 @@ import java.util.ArrayList;
 import static com.wkurek.sporttracker.MainActivity.CHANNEL_ID;
 
 public class TrackerService extends Service {
-    private static final int LOCATION_REQUEST_INTERVAL_IN_MS = 500;
-    private static final int LOCATION_REQUEST_FASTEST_INTERVAL_IN_MS = LOCATION_REQUEST_INTERVAL_IN_MS/2;
+    public static final long LOCATION_REQUEST_INTERVAL_IN_MS = 1500;
+    public static final long LOCATION_REQUEST_FASTEST_INTERVAL_IN_MS = LOCATION_REQUEST_INTERVAL_IN_MS/2;
+    public static final float LOCATION_REQUEST_SMALLEST_DISPLACEMENT = 6;
     private static final int SERVICE_NOTIFICATION_ID = 41;
 
     TrackerBinder binder = new TrackerBinder();
@@ -38,7 +39,7 @@ public class TrackerService extends Service {
 
     private ArrayList<Location> locationList = new ArrayList<>();
     private long startTime;
-    private long pauseTime = 0, delay = 0;
+    private long pauseTime = 0, delay = 0, pausedSecondsNumber = 0;
     private boolean paused = false;
     private double distance = 0.0;
 
@@ -83,6 +84,7 @@ public class TrackerService extends Service {
         locationRequest.setInterval(LOCATION_REQUEST_INTERVAL_IN_MS);
         locationRequest.setFastestInterval(LOCATION_REQUEST_FASTEST_INTERVAL_IN_MS);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setSmallestDisplacement(LOCATION_REQUEST_SMALLEST_DISPLACEMENT);
     }
 
     private void createLocationCallback() {
@@ -102,6 +104,7 @@ public class TrackerService extends Service {
 
     void pauseTraining() {
         pauseTime = System.currentTimeMillis();
+        pausedSecondsNumber = getSecondsNumber();
         paused = true;
     }
 
@@ -115,7 +118,7 @@ public class TrackerService extends Service {
     }
 
     long getSecondsNumber() {
-        return (System.currentTimeMillis() - startTime - delay)/1000;
+        return paused ? pausedSecondsNumber : (System.currentTimeMillis() - startTime - delay)/1000;
     }
 
     long getStartTime() {

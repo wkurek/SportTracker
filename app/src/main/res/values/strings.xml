@@ -5,4 +5,12 @@
     <string name="channel_name">tracker service channel</string>
     <string name="channel_description">tracker service notification</string>
     <string name="service_notification_title">Tracking Service</string>
+
+    <string name="location_permission_rationale">Location permission is needed to track user during training</string>
+    <string name="location_permission_denied">Denying location permission makes training functionality unavailable</string>
+
+    <string name="start">start</string>
+    <string name="stop">stop</string>
+    <string name="pause">pause</string>
+    <string name="resume">resume</string>
 </resources>
