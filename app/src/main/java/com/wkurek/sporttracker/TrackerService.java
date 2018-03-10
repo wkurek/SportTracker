@@ -143,6 +143,11 @@ public class TrackerService extends Service {
         return lastLocation.getAltitude();
     }
 
+    double getAvgVelocity() {
+        if(locationList.size() < 2) return 0.0;
+        return distance/getSecondsNumber()*3.6;
+    }
+
     ArrayList<LatLng> getLatLngList() {
         if(locationList.isEmpty()) return null;
 

@@ -13,4 +13,8 @@
     <string name="stop">stop</string>
     <string name="pause">pause</string>
     <string name="resume">resume</string>
+
+   <string name="map_tab">map</string>
+   <string name="training_console_tab">console</string>
+
 </resources>
