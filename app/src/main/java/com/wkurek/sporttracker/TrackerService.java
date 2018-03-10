@@ -182,8 +182,6 @@ public class TrackerService extends Service {
             Notification.Builder builder = new Notification.Builder(this)
                     .setContentTitle(getString(R.string.service_notification_title))
                     .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setCategory(Notification.CATEGORY_SERVICE)
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setContentIntent(pendingIntent);
 
             return builder.build();

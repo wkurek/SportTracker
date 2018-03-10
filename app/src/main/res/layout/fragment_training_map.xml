@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.wkurek.sporttracker.TrainingMapFragment">
 
-
-    <TextView
-        android:id="@+id/training_map_text"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/training_map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

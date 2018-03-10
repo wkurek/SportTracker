@@ -1,7 +1,6 @@
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wkurek.sporttracker.TrainingConsoleFragment">
@@ -10,68 +9,123 @@
         android:id="@+id/training_time_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="64sp"
+        android:textSize="52sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/training_distance_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/training_distance_description"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="140dp"
+        android:padding="2dp"
+        android:src="@drawable/ic_distance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/training_distance_view"
         android:layout_width="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="76dp"
-        app:layout_constraintEnd_toEndOf="@+id/training_time_view"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/training_time_view"
-        app:layout_constraintTop_toBottomOf="@+id/training_time_view" />
+        android:layout_marginStart="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/training_distance_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.341"
+        app:layout_constraintStart_toEndOf="@+id/training_distance_image"
+        app:layout_constraintTop_toTopOf="@+id/training_distance_image"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/training_avg_velocity_view"
+    <ImageView
+        android:id="@+id/training_velocity_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/training_distance_view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/training_distance_view"
-        app:layout_constraintTop_toBottomOf="@+id/training_distance_view" />
+        android:contentDescription="@string/training_velocity_description"
+        android:layout_marginTop="24dp"
+        android:padding="2dp"
+        android:src="@drawable/ic_velocity"
+        app:layout_constraintStart_toStartOf="@+id/training_distance_image"
+        app:layout_constraintTop_toBottomOf="@+id/training_distance_image" />
 
     <TextView
         android:id="@+id/training_velocity_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/training_avg_velocity_view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/training_avg_velocity_view"
-        app:layout_constraintTop_toBottomOf="@+id/training_avg_velocity_view" />
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/training_velocity_image"
+        app:layout_constraintStart_toStartOf="@+id/training_distance_view"
+        app:layout_constraintTop_toTopOf="@+id/training_velocity_image"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/training_avg_velocity_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/training_avg_velocity_description"
+        android:layout_marginTop="24dp"
+        android:padding="2dp"
+        android:src="@drawable/ic_velocity"
+        app:layout_constraintStart_toStartOf="@+id/training_velocity_image"
+        app:layout_constraintTop_toBottomOf="@+id/training_velocity_image" />
+
+    <TextView
+        android:id="@+id/training_avg_velocity_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/training_avg_velocity_image"
+        app:layout_constraintStart_toStartOf="@+id/training_velocity_view"
+        app:layout_constraintTop_toTopOf="@+id/training_avg_velocity_image"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/training_altitude_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/training_altitude_description"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
+        android:padding="2dp"
+        android:src="@drawable/ic_altitude"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/training_avg_velocity_image"
+        app:layout_constraintTop_toBottomOf="@+id/training_avg_velocity_image"
+        app:layout_constraintVertical_bias="0.006" />
 
     <TextView
         android:id="@+id/training_altitude_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/training_velocity_view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/training_velocity_view"
-        app:layout_constraintTop_toBottomOf="@+id/training_velocity_view" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/training_altitude_image"
+        app:layout_constraintStart_toStartOf="@+id/training_avg_velocity_view"
+        app:layout_constraintTop_toTopOf="@+id/training_altitude_image"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/stop_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginStart="36dp"
         android:text="@string/stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -80,9 +134,10 @@
         android:id="@+id/pause_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="36dp"
         android:text="@string/pause"
         app:layout_constraintBaseline_toBaselineOf="@+id/stop_button"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>
