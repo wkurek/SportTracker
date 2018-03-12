@@ -24,12 +24,13 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".TrainingActivity"/>
+        <activity android:name=".TrainingActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCCEcTV7pGtUtUkn1syDWP5TSFvRYw6aac"/>
+            android:value="AIzaSyCCEcTV7pGtUtUkn1syDWP5TSFvRYw6aac" />
 
+        <activity android:name=".SummaryActivity"></activity>
     </application>
 
 </manifest>

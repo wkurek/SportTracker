@@ -67,6 +67,7 @@ public class TrackerService extends Service {
 
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback,
                 Looper.myLooper());
+
     }
 
     @Override
@@ -121,10 +122,6 @@ public class TrackerService extends Service {
         return paused ? pausedSecondsNumber : (System.currentTimeMillis() - startTime - delay)/1000;
     }
 
-    long getStartTime() {
-        return startTime;
-    }
-
     double getDistance() {
         return distance;
     }
@@ -133,6 +130,8 @@ public class TrackerService extends Service {
         if(locationList.isEmpty()) return 0.0;
 
         Location lastLocation = locationList.get(locationList.size()-1);
+        if(System.currentTimeMillis() - lastLocation.getTime() > 2*LOCATION_REQUEST_INTERVAL_IN_MS)
+            return 0.0;
         return lastLocation.getSpeed();
     }
 

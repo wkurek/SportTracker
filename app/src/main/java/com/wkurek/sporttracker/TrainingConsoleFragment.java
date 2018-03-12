@@ -96,7 +96,10 @@ public class TrainingConsoleFragment extends Fragment {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trainingStopListener.onTrainingStop();
+                if(bound && trackerService != null) {
+                    trainingStopListener.onTrainingStop(trackerService.getSecondsNumber(),
+                            trackerService.getDistance(), trackerService.getLocationList());
+                }
             }
         });
 

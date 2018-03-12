@@ -1,6 +1,7 @@
 package com.wkurek.sporttracker;
 
 import android.content.Intent;
+import android.location.Location;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,10 +33,16 @@ public class TrainingActivity extends AppCompatActivity implements TrainingStopL
 
 
     @Override
-    public void onTrainingStop() {
-        Intent intent = new Intent(this, TrackerService.class);
-        stopService(intent);
-        //TODO: finish self, start SummaryActivity
+    public void onTrainingStop(long secondsNumber, double distance, ArrayList<Location> locations) {
+        Intent serviceIntent = new Intent(this, TrackerService.class);
+        stopService(serviceIntent);
+
+        Intent activityIntent = new Intent(this, SummaryActivity.class);
+            activityIntent.putExtra(SummaryActivity.SECONDS_NUMBER_KEY, secondsNumber);
+            activityIntent.putExtra(SummaryActivity.DISTANCE_KEY, distance);
+            activityIntent.putExtra(SummaryActivity.LOCATION_ARRAY_LIST_KEY, locations);
+        startActivity(activityIntent);
+        this.finish();
     }
 
     private void setUpViewPager(ViewPager viewPager) {

@@ -18,7 +18,7 @@
     <string name="training_avg_velocity_description">average velocity</string>
     <string name="training_altitude_description">current description</string>
 
-   <string name="map_tab">map</string>
-   <string name="training_console_tab">console</string>
+    <string name="map_tab">map</string>
+    <string name="training_console_tab">console</string>
 
 </resources>
