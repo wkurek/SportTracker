@@ -14,14 +14,13 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Display basic information about training.
+ * Including time, distance, velocity and altitude
  */
 public class SummaryStatsFragment extends Fragment {
 
 
-    public SummaryStatsFragment() {
-        // Required empty public constructor
-    }
+    public SummaryStatsFragment() {}
 
 
     @Override

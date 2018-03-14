@@ -64,8 +64,11 @@ public class SummaryActivity extends AppCompatActivity {
             SummaryStatsFragment summaryStatsFragment = new SummaryStatsFragment();
             summaryStatsFragment.setArguments(bundle);
 
+            SummaryMapFragment summaryMapFragment = new SummaryMapFragment();
+            summaryMapFragment.setArguments(bundle);
+
         //TODO: add proper fragments to adapter
-        //pagerAdapter.addFragment(summaryStatsFragment, getString(R.string.map_tab));
+        pagerAdapter.addFragment(summaryMapFragment, getString(R.string.map_tab));
         pagerAdapter.addFragment(summaryStatsFragment, getString(R.string.stats_tab));
         //pagerAdapter.addFragment(summaryStatsFragment, getString(R.string.chart_tab));
 
