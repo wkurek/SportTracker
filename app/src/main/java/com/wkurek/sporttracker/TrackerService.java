@@ -142,9 +142,13 @@ public class TrackerService extends Service {
         return lastLocation.getAltitude();
     }
 
+    long getStartTime() {
+        return startTime;
+    }
+
     double getAvgVelocity() {
         if(locationList.size() < 2) return 0.0;
-        return distance/getSecondsNumber()*3.6;
+        return getAvgVelocity(distance, getSecondsNumber());
     }
 
     ArrayList<LatLng> getLatLngList() {
@@ -159,6 +163,10 @@ public class TrackerService extends Service {
 
     ArrayList<Location> getLocationList() {
         return locationList.isEmpty() ? null : locationList;
+    }
+
+    public static double getAvgVelocity(double distance, long secondsNumber) {
+        return distance/secondsNumber;
     }
 
     @TargetApi(Build.VERSION_CODES.O)

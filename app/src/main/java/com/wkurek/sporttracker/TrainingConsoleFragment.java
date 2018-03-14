@@ -97,8 +97,9 @@ public class TrainingConsoleFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(bound && trackerService != null) {
-                    trainingStopListener.onTrainingStop(trackerService.getSecondsNumber(),
-                            trackerService.getDistance(), trackerService.getLocationList());
+                    trainingStopListener.onTrainingStop(trackerService.getStartTime(),
+                            trackerService.getSecondsNumber(), trackerService.getDistance(),
+                            trackerService.getLocationList());
                 }
             }
         });

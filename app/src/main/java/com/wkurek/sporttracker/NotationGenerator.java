@@ -1,5 +1,7 @@
 package com.wkurek.sporttracker;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -25,6 +27,11 @@ class NotationGenerator {
 
     static String generateAltitudeNotation(double altitude) {
         return String.format(Locale.GERMANY, "%.2f m", altitude);
+    }
+
+    static String generateDateNotation(long secondsNumber) {
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.GERMANY)
+                .format(new Date(secondsNumber));
     }
 
 }

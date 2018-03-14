@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="52sp"
+        android:textSize="56sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,9 +21,9 @@
         android:id="@+id/training_distance_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/training_distance_description"
         android:layout_marginStart="88dp"
         android:layout_marginTop="140dp"
+        android:contentDescription="@string/training_distance_description"
         android:padding="2dp"
         android:src="@drawable/ic_distance"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,15 +97,15 @@
         android:id="@+id/training_altitude_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/training_altitude_description"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="24dp"
+        android:contentDescription="@string/training_altitude_description"
         android:padding="2dp"
         android:src="@drawable/ic_altitude"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/training_avg_velocity_image"
         app:layout_constraintTop_toBottomOf="@+id/training_avg_velocity_image"
-        app:layout_constraintVertical_bias="0.006" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/training_altitude_view"
@@ -115,6 +115,7 @@
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textSize="18sp"
+        android:textColor="@color/colorTextDark"
         app:layout_constraintBottom_toBottomOf="@+id/training_altitude_image"
         app:layout_constraintStart_toStartOf="@+id/training_avg_velocity_view"
         app:layout_constraintTop_toTopOf="@+id/training_altitude_image"
@@ -127,6 +128,8 @@
         android:layout_marginBottom="36dp"
         android:layout_marginStart="36dp"
         android:text="@string/stop"
+        android:background="@color/colorStop"
+        android:textColor="@color/colorLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -136,6 +139,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
         android:text="@string/pause"
+        android:background="@color/colorPause"
+        android:textColor="@color/colorLight"
         app:layout_constraintBaseline_toBaselineOf="@+id/stop_button"
         app:layout_constraintEnd_toEndOf="parent" />
 

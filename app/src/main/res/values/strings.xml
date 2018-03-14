@@ -19,6 +19,20 @@
     <string name="training_altitude_description">current description</string>
 
     <string name="map_tab">map</string>
-    <string name="training_console_tab">console</string>
+    <string name="console_tab">console</string>
+    <string name="stats_tab">stats</string>
+    <string name="chart_tab">chart</string>
+
+    <string name="summary_calendar_description">training date</string>
+    <string name="summary_time_description">time</string>
+    <string name="summary_distance_description">distance</string>
+    <string name="summary_avg_velocity_description">average velocity</string>
+    <string name="summary_max_velocity_description">max velocity</string>
+    <string name="summary_avg_altitude_description">average altitude</string>
+    <string name="summary_max_altitude_description">max altitude</string>
+
+    <string name="summary_menu_delete_title">delete training</string>
+    <string name="summary_menu_save_title">save training</string>
+    <string name="summary_menu_title">Training Summary</string>
 
 </resources>
