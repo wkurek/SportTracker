@@ -18,9 +18,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.List;
 
 
 public class TrainingMapFragment extends Fragment implements OnMapReadyCallback{
@@ -90,18 +93,17 @@ public class TrainingMapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     private void fillMap() {
-        PolylineOptions polylineOptions = new PolylineOptions().color(getResources().getColor(R.color.colorAccent));
-        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+        PolylineOptions polylineOptions = new PolylineOptions()
+                .color(getResources().getColor(R.color.colorAccent));
 
-        for(LatLng latLng : trackerService.getLatLngList()) {
+        List<LatLng> latLngList = trackerService.getLatLngList();
+        for(LatLng latLng : latLngList) {
             polylineOptions.add(latLng);
-            boundsBuilder.include(latLng);
         }
 
-        LatLngBounds latLngBounds = boundsBuilder.build();
-
         map.addPolyline(polylineOptions);
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(latLngList.size() - 1), 16));
+
     }
 
     private void clearMap() {
