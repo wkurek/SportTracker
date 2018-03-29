@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/main_nav_personal"
+            android:title="@string/main_nav_personal_title"
+            android:icon="@drawable/ic_velocity"/>
+        <item
+            android:id="@+id/main_nav_trainings"
+            android:title="@string/main_nav_trainings_title"
+            android:icon="@drawable/ic_distance"/>
+        <item
+            android:id="@+id/main_nav_settings"
+            android:title="@string/main_nav_settings_title"
+            android:icon="@drawable/ic_settings"/>
+
+    </group>
+
+</menu>

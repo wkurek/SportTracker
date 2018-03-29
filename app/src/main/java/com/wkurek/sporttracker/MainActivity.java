@@ -13,12 +13,16 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.ApiException;
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private LocationSettingsRequest locationSettingsRequest;
     private LocationRequest locationRequest;
 
+    private DrawerLayout drawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +59,47 @@ public class MainActivity extends AppCompatActivity {
         createLocationRequest();
         createLocationSettingsRequest();
 
-        Button startButton = findViewById(R.id.start_button);
-        startButton.setOnClickListener(new View.OnClickListener() {
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
+
+        //Set up NavigationDrawer
+        drawerLayout = findViewById(R.id.main_drawer_layout);
+
+        final NavigationView navigationView = findViewById(R.id.main_navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                if(checkLocationPermission()) {
-                    startTraining();
-                } else {
-                    requestLocationPermission();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                item.setChecked(true); //mark drawer option as checked
+                drawerLayout.closeDrawers(); //close drawer after selecting option
+
+                //TODO: fragment transitions here based on item object
+                switch (item.getItemId()) {
+
                 }
+
+                return false;
             }
         });
 
+
+
         createNotificationChannel();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     void startTraining() {
