@@ -3,7 +3,9 @@ package com.wkurek.sporttracker;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.NotificationChannel;
 import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
 
     private DrawerLayout drawerLayout;
+    private Fragment currentFragment;
 
 
     @Override
@@ -73,27 +76,56 @@ public class MainActivity extends AppCompatActivity {
 
         //Set up NavigationDrawer
         drawerLayout = findViewById(R.id.main_drawer_layout);
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {}
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                replaceFragment(currentFragment);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {}
+        });
 
         final NavigationView navigationView = findViewById(R.id.main_navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //TODO: change Fragments
+                switch (item.getItemId()) {
+                    case R.id.main_nav_personal: {
+                        currentFragment = new TrainingsArchiveFragment();
+                        break;
+                    }
+                    case R.id.main_nav_trainings: {
+                        currentFragment = new TrainingsArchiveFragment();
+                        break;
+                    }
+                    case R.id.main_nav_settings: {
+                        currentFragment = new TrainingsArchiveFragment();
+                        break;
+                    }
+                    default: {
+                        currentFragment = null;
+                        return false;
+                    }
+                }
                 item.setChecked(true); //mark drawer option as checked
                 drawerLayout.closeDrawers(); //close drawer after selecting option
 
-                //TODO: fragment transitions here based on item object
-                switch (item.getItemId()) {
-
-                }
-
-                return false;
+                return true;
             }
         });
 
-
-        TrainingsArchiveFragment archiveFragment = new TrainingsArchiveFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.main_frame_layout, archiveFragment).commit();
+        //Set up training archive as an initial tab
+        navigationView.setCheckedItem(R.id.main_nav_trainings);
+        navigationView.getMenu().performIdentifierAction(R.id.main_nav_trainings, 0);
+        replaceFragment(currentFragment);
 
         FloatingActionButton floatingActionButton = findViewById(R.id.main_fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -105,9 +137,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         createNotificationChannel();
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        if(fragment == null) return;
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_frame_layout, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     @Override

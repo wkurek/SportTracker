@@ -13,12 +13,12 @@ import java.util.List;
  * JSON representation of collection is stored in database.
  */
 
-public class JSONLocationGenerator {
-    public static final String TIME_KEY = "time";
-    public static final String VELOCITY_KEY = "velocity";
-    public static final String ALTITUDE_KEY = "altitude";
-    public static final String LAT_KEY = "lat";
-    public static final String LNG_KEY = "lng";
+class JSONLocationGenerator {
+    static final String TIME_KEY = "time";
+    static final String VELOCITY_KEY = "velocity";
+    static final String ALTITUDE_KEY = "altitude";
+    static final String LAT_KEY = "lat";
+    static final String LNG_KEY = "lng";
 
     private static JSONObject generateJSONObject(Location location) {
         JSONObject object = new JSONObject();
@@ -34,7 +34,7 @@ public class JSONLocationGenerator {
         return object;
     }
 
-    public static JSONArray generateJSONArray(List<Location> locations) {
+    static JSONArray generateJSONArray(List<Location> locations) {
         if(locations  == null || locations.isEmpty()) return null;
         JSONArray jsonArray = new JSONArray();
 

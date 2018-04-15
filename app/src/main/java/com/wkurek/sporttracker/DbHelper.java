@@ -28,18 +28,18 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * Class consists of public accessible constant variables which could be used while forming SQL queries.
      */
-    public static class TrainingContract implements BaseColumns{
+    static class TrainingContract implements BaseColumns{
         private TrainingContract() {}
 
-        public static final String TABLE_NAME = "trainings";
-        public static final String COLUMN_NAME_START_TIME = "start_time";
-        public static final String COLUMN_NAME_SECONDS_NUMBER = "seconds_number";
-        public static final String COLUMN_NAME_DISTANCE = "distance";
-        public static final String COLUMN_NAME_TRACK = "track";
-        public static final String COLUMN_NAME_LOCATIONS = "locations";
+        static final String TABLE_NAME = "trainings";
+        static final String COLUMN_NAME_START_TIME = "start_time";
+        static final String COLUMN_NAME_SECONDS_NUMBER = "seconds_number";
+        static final String COLUMN_NAME_DISTANCE = "distance";
+        static final String COLUMN_NAME_TRACK = "track";
+        static final String COLUMN_NAME_LOCATIONS = "locations";
     }
 
-    public DbHelper(Context context) {
+    DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -56,11 +56,10 @@ public class DbHelper extends SQLiteOpenHelper {
 
    private Cursor select(String table, String[] columns,  String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor result = database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
-        return result;
+        return database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
    }
 
-   public Cursor selectAllTrainings() {
+   Cursor selectAllTrainings() {
         String[] columns = new String[] {TrainingContract.COLUMN_NAME_DISTANCE,
                 TrainingContract.COLUMN_NAME_START_TIME, TrainingContract.COLUMN_NAME_LOCATIONS,
                 TrainingContract.COLUMN_NAME_SECONDS_NUMBER, TrainingContract.COLUMN_NAME_TRACK};

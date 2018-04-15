@@ -3,13 +3,13 @@ package com.wkurek.sporttracker;
 import android.content.Context;
 import android.database.Cursor;
 import android.content.AsyncTaskLoader;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Wojtek on 14.04.2018.
+ * Loader which loads trainings from SQLite database.
+ * Data from Cursor are converted to List of TrainingEntries.
  */
 
 public class TrainingsLoader extends AsyncTaskLoader<List<TrainingEntry>> {
@@ -18,10 +18,6 @@ public class TrainingsLoader extends AsyncTaskLoader<List<TrainingEntry>> {
     TrainingsLoader(Context context) {
         super(context);
     }
-
-
-
-
 
     @Override
     public List<TrainingEntry> loadInBackground() {
