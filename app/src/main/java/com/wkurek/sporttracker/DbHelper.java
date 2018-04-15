@@ -1,9 +1,12 @@
 package com.wkurek.sporttracker;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+
+import java.util.Locale;
 
 /**
  * Class whose aim is to help in communication with SQLite database.
@@ -50,4 +53,22 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_DROP_QUERY); //When new version od DB appears drop existing Db
         onCreate(sqLiteDatabase); // and create a new one
     }
+
+   private Cursor select(String table, String[] columns,  String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor result = database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
+
+        database.close();
+        return result;
+   }
+
+   public Cursor selectAllTrainings() {
+        String[] columns = new String[] {TrainingContract.COLUMN_NAME_DISTANCE,
+                TrainingContract.COLUMN_NAME_START_TIME, TrainingContract.COLUMN_NAME_LOCATIONS,
+                TrainingContract.COLUMN_NAME_SECONDS_NUMBER, TrainingContract.COLUMN_NAME_TRACK};
+        String orderBy = String.format(Locale.GERMANY, "%s DESC", TrainingContract.COLUMN_NAME_START_TIME);
+
+        return select(TrainingContract.TABLE_NAME, columns, null, null, null,
+                null, orderBy);
+   }
 }
