@@ -1,11 +1,12 @@
 package com.wkurek.sporttracker;
 
-import android.app.FragmentManager;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,18 +17,21 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment which presents saved trainings.
+ * Trainings archive is presented in form of RecyclerView.
  */
 public class TrainingsArchiveFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<TrainingEntry>> {
     private static final int ARCHIVE_TRAININGS_LOADER_ID = 41;
@@ -43,45 +47,66 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
 
     @Override
     public void onLoadFinished(Loader<List<TrainingEntry>> loader, List<TrainingEntry> trainingEntries) {
-        trainings = trainingEntries;
+        trainings.clear();
+        trainings.addAll(trainingEntries);
+
+        Log.i(TAG, String.format(Locale.GERMANY, "Trainings number: %d", trainings.size()));
         if(adapter != null) adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onLoaderReset(Loader<List<TrainingEntry>> loader) {}
 
-    public class TrainingArchiveAdapter extends RecyclerView.Adapter<TrainingArchiveAdapter.TrainingViewHolder> {
+    class TrainingArchiveAdapter extends RecyclerView.Adapter<TrainingArchiveAdapter.TrainingViewHolder> {
         private List<TrainingEntry> trainings;
 
-        class TrainingViewHolder extends RecyclerView.ViewHolder {
-            TextView dateView, timeView, distanceView;
-            TrainingEntry trainingEntry;
-            private MapFragment mapFragment;
+        class TrainingViewHolder extends RecyclerView.ViewHolder implements OnMapReadyCallback {
+            private TrainingEntry trainingEntry;
+            private GoogleMap googleMap;
+            TextView dateView, timeView, distanceView, velocityView;
+            MapView mapView;
 
-            TrainingViewHolder(View view) {
-                super(view);
+            TrainingViewHolder(View layout) {
+                super(layout);
+                dateView = layout.findViewById(R.id.training_card_date);
+                timeView = layout.findViewById(R.id.training_card_time);
+                distanceView = layout.findViewById(R.id.training_card_distance);
+                velocityView = layout.findViewById(R.id.training_card_velocity);
 
-                dateView = view.findViewById(R.id.training_card_date);
-                timeView = view.findViewById(R.id.training_card_time);
-                distanceView = view.findViewById(R.id.training_card_distance);
+                mapView = layout.findViewById(R.id.training_card_map_view);
+                mapView.onCreate(null);
+                mapView.getMapAsync(this);
             }
 
-            void addMapFragment(OnMapReadyCallback callback) {
-                if(mapFragment == null) {
-                    mapFragment = MapFragment.newInstance();
-                    mapFragment.getMapAsync(callback);
-                }
-
-                FragmentManager fragmentManager = getChildFragmentManager();
-                fragmentManager.beginTransaction().add(R.id.training_card_map, mapFragment).commit();
+            void setTrainingEntry(TrainingEntry trainingEntry) {
+                this.trainingEntry = trainingEntry;
+                if(googleMap != null) showTrackOnMap();
             }
 
-            void removeMapFragment() {
-                if(mapFragment != null) {
-                    FragmentManager fragmentManager = getChildFragmentManager();
-                    fragmentManager.beginTransaction().remove(mapFragment).commit();
-                    mapFragment = null;
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                this.googleMap = googleMap;
+
+                //GoogleMap settings
+                UiSettings uiSettings = googleMap.getUiSettings();
+                uiSettings.setMapToolbarEnabled(false);
+                mapView.setClickable(false);
+
+                if(trainingEntry != null) showTrackOnMap();
+            }
+
+            private void showTrackOnMap() {
+                PolylineOptions polylineOptions = new PolylineOptions();
+                polylineOptions.color(getResources().getColor(R.color.colorAccent));
+
+                LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+                for(LatLng latLng : trainingEntry.getTrack()) {
+                    boundsBuilder.include(latLng);
+                    polylineOptions.add(latLng);
                 }
+
+                googleMap.addPolyline(polylineOptions);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 10));
             }
         }
 
@@ -89,9 +114,9 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
             this.trainings = trainings;
         }
 
-
+        @NonNull
         @Override
-        public TrainingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public TrainingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View trainingCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.training_card,
                     parent, false);
 
@@ -99,9 +124,9 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
         }
 
         @Override
-        public void onBindViewHolder(TrainingViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull TrainingViewHolder holder, int position) {
             TrainingEntry trainingEntry = trainings.get(position);
-            holder.trainingEntry = trainingEntry;
+            holder.setTrainingEntry(trainingEntry);
 
             holder.dateView.setText(NotationGenerator.generateDateNotation(
                     trainingEntry.getStartTime()));
@@ -109,28 +134,9 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
                     trainingEntry.getSecondsNumber()));
             holder.distanceView.setText(NotationGenerator.generateDistanceNotation(
                     trainingEntry.getDistance()));
-        }
-
-        @Override
-        public void onViewAttachedToWindow(final TrainingViewHolder holder) {
-            super.onViewAttachedToWindow(holder);
-            if(holder != null && holder.trainingEntry != null) {
-                holder.addMapFragment(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(GoogleMap googleMap) {
-                        //TODO: implement this method
-                        PolylineOptions polylineOptions = new PolylineOptions();
-                        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-                        for(LatLng latLng : holder.trainingEntry.getTrack()) {
-                            boundsBuilder.include(latLng);
-                            polylineOptions.add(latLng);
-                        }
-
-                        googleMap.addPolyline(polylineOptions);
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 10));
-                    }
-                });
-            }
+            holder.velocityView.setText(NotationGenerator.generateVelocityNotation(
+                    TrackerService.getAvgVelocity(trainingEntry.getDistance(),
+                            trainingEntry.getSecondsNumber())));
         }
 
         @Override
@@ -138,18 +144,9 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
             return trainings.size();
         }
 
-        @Override
-        public void onViewDetachedFromWindow(TrainingViewHolder holder) {
-            super.onViewDetachedFromWindow(holder);
-
-            if(holder != null) {
-                holder.removeMapFragment();
-            }
-        }
     }
 
     public TrainingsArchiveFragment() {}
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -166,11 +163,25 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
         adapter = new TrainingArchiveAdapter(trainings);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        final SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.archive_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshTrainingEntries();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(ARCHIVE_TRAININGS_LOADER_ID, null, this);
+    public void onResume() {
+        super.onResume();
+        refreshTrainingEntries();
+    }
+
+    private void refreshTrainingEntries() {
+        Log.i(TAG, "Refreshing trainings data set.");
+        getLoaderManager().restartLoader(ARCHIVE_TRAININGS_LOADER_ID, null, this);
     }
 }

@@ -30,8 +30,7 @@ public class TrainingsLoader extends AsyncTaskLoader<List<TrainingEntry>> {
         DbHelper helper = new DbHelper(getContext());
         Cursor cursor = helper.selectAllTrainings();
 
-        if(cursor == null) return null;
-        else if(cursor.getCount() <= 0) {
+        if(cursor.getCount() <= 0) {
             cursor.close();
             return null;
         }

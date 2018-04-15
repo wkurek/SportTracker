@@ -32,7 +32,7 @@ public class TrainingSaveTask extends AsyncTask<Long, Void, Void> {
     @Override
     protected Void doInBackground(Long... longs) {
         if(database == null || !database.isOpen() || database.isReadOnly()
-                || longs.length < 2 || locations == null || locations.isEmpty()) return null;
+                || longs.length < 2 || locations == null) return null;
 
 
         //Generate List of LatLng objects required to PolyUtil encode method

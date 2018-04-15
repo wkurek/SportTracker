@@ -57,8 +57,6 @@ public class DbHelper extends SQLiteOpenHelper {
    private Cursor select(String table, String[] columns,  String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor result = database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
-
-        database.close();
         return result;
    }
 

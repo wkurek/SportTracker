@@ -1,79 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="@color/colorLight"
-        card_view:cardCornerRadius="6dp">
+        app:cardBackgroundColor="@color/colorTextLight"
+        app:cardCornerRadius="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/training_card_map"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"/>
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/training_card_map_view"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                app:liteMode="true" />
+
+            <TextView
+                android:id="@+id/training_card_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:drawableStart="@drawable/ic_calendar"
+                android:drawablePadding="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_calendar"/>
-
-                <TextView
-                    android:id="@+id/training_card_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:textSize="12sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_timer"/>
 
                 <TextView
                     android:id="@+id/training_card_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_distance"
-                    android:layout_marginStart="48dp"/>
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:drawableStart="@drawable/ic_timer"
+                    android:drawablePadding="4dp"/>
 
                 <TextView
                     android:id="@+id/training_card_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:textSize="12sp"/>
+                    android:layout_marginStart="18dp"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:drawableStart="@drawable/ic_distance"
+                    android:drawablePadding="4dp"/>
+
+                <TextView
+                    android:id="@+id/training_card_velocity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:drawableStart="@drawable/ic_velocity"
+                    android:drawablePadding="4dp"/>
 
             </LinearLayout>
-
 
         </LinearLayout>
 

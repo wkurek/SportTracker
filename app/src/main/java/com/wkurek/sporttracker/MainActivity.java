@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startTraining();
+                if(checkLocationPermission()) {
+                    startTraining();
+                } else requestLocationPermission();
             }
         });
 
