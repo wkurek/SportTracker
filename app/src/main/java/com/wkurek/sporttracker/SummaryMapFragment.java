@@ -3,6 +3,7 @@ package com.wkurek.sporttracker;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -33,13 +34,13 @@ public class SummaryMapFragment extends Fragment implements OnMapReadyCallback{
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_summary_map, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         locationList = getArguments().getParcelableArrayList(SummaryActivity.LOCATION_ARRAY_LIST_KEY);
 
         mapView = view.findViewById(R.id.summary_map);
@@ -73,7 +74,7 @@ public class SummaryMapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
         if(mapViewBundle == null) {
             mapViewBundle = new Bundle();

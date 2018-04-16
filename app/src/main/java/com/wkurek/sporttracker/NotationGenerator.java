@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by Wojtek on 09.03.2018.
+ * Aim of class is to provide unified notation of presenting particular data.
  */
 
 class NotationGenerator {

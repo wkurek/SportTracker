@@ -14,11 +14,11 @@ import java.util.List;
  */
 
 class JSONLocationGenerator {
-    static final String TIME_KEY = "time";
-    static final String VELOCITY_KEY = "velocity";
-    static final String ALTITUDE_KEY = "altitude";
-    static final String LAT_KEY = "lat";
-    static final String LNG_KEY = "lng";
+    private static final String TIME_KEY = "time";
+    private static final String VELOCITY_KEY = "velocity";
+    private static final String ALTITUDE_KEY = "altitude";
+    private static final String LAT_KEY = "lat";
+    private static final String LNG_KEY = "lng";
 
     private static JSONObject generateJSONObject(Location location) {
         JSONObject object = new JSONObject();

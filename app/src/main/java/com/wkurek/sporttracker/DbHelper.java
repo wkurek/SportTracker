@@ -1,10 +1,12 @@
 package com.wkurek.sporttracker;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -13,6 +15,7 @@ import java.util.Locale;
  */
 
 public class DbHelper extends SQLiteOpenHelper {
+    private static final String TAG = DbHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "SportTracker.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -56,6 +59,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
    private Cursor select(String table, String[] columns,  String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
         SQLiteDatabase database = this.getReadableDatabase();
+       database.enableWriteAheadLogging();
         return database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
    }
 
@@ -67,5 +71,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
         return select(TrainingContract.TABLE_NAME, columns, null, null, null,
                 null, orderBy);
+   }
+
+   void insertTraining(ContentValues values) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.enableWriteAheadLogging();
+        long result = database.insert(TrainingContract.TABLE_NAME, null, values);
+
+        if(result > 0) {
+            Log.i(TAG, "Training inserted to database correctly.");
+        } else Log.i(TAG, "Error while inserting training to database.");
    }
 }

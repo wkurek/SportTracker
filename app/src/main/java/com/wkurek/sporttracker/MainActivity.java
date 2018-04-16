@@ -96,10 +96,9 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //TODO: change Fragments
                 switch (item.getItemId()) {
                     case R.id.main_nav_personal: {
-                        currentFragment = new TrainingsArchiveFragment();
+                        currentFragment = new PersonalFragment();
                         break;
                     }
                     case R.id.main_nav_trainings: {
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.main_nav_settings: {
-                        currentFragment = new TrainingsArchiveFragment();
+                        currentFragment = new SettingsFragment();
                         break;
                     }
                     default: {

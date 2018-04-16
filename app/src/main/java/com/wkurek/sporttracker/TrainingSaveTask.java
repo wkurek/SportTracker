@@ -1,7 +1,6 @@
 package com.wkurek.sporttracker;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.AsyncTask;
 
@@ -13,26 +12,22 @@ import java.util.List;
 
 /**
  * Background Task which aim is to insert training into local SQLite database.
- * Class gets an instance of open and writable SQLite database inside its constructor.
  */
 
 public class TrainingSaveTask extends AsyncTask<Long, Void, Void> {
-    private SQLiteDatabase database;
-
+    private DbHelper dbHelper;
     private ArrayList<Location> locations;
     private double distance;
 
-    TrainingSaveTask(SQLiteDatabase database, ArrayList<Location> locations, double distance) {
-        this.database = database;
+    TrainingSaveTask(DbHelper dbHelper, ArrayList<Location> locations, double distance) {
+        this.dbHelper = dbHelper;
         this.locations = locations;
         this.distance = distance;
     }
 
-
     @Override
     protected Void doInBackground(Long... longs) {
-        if(database == null || !database.isOpen() || database.isReadOnly()
-                || longs.length < 2 || locations == null || locations.size() < 2) return null;
+        if(longs.length < 2 || locations == null || locations.size() < 2) return null;
 
 
         //Generate List of LatLng objects required to PolyUtil encode method
@@ -49,7 +44,7 @@ public class TrainingSaveTask extends AsyncTask<Long, Void, Void> {
                 JSONLocationGenerator.generateJSONArray(locations).toString());
         values.put(DbHelper.TrainingContract.COLUMN_NAME_TRACK, PolyUtil.encode(latLngList));
 
-        database.insert(DbHelper.TrainingContract.TABLE_NAME, null, values);
+        dbHelper.insertTraining(values);
         return null;
     }
 }

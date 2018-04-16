@@ -1,6 +1,5 @@
 package com.wkurek.sporttracker;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -102,7 +101,6 @@ public class SummaryActivity extends AppCompatActivity {
      */
     private void saveTraining() {
         DbHelper dbHelper = new DbHelper(this);
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         Bundle bundle = getIntent().getExtras();
         if(bundle == null) return;
@@ -112,7 +110,7 @@ public class SummaryActivity extends AppCompatActivity {
         ArrayList<Location> locations = bundle.getParcelableArrayList(LOCATION_ARRAY_LIST_KEY);
 
         Log.i(TAG, "Invoking TrainingSaveTask.");
-        TrainingSaveTask trainingSaveTask = new TrainingSaveTask(database, locations, distance);
+        TrainingSaveTask trainingSaveTask = new TrainingSaveTask(dbHelper, locations, distance);
         trainingSaveTask.execute(startTime, secondsNumber);
 
         //Navigate to MainActivity

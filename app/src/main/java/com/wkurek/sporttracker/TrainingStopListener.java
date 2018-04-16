@@ -5,7 +5,8 @@ import android.location.Location;
 import java.util.ArrayList;
 
 /**
- * Created by Wojtek on 10.03.2018.
+ * Interface which is implemented by TrainingActivity.
+ * It's purpose is to make possible to stop TrackerService started in Activity from Fragment.
  */
 
 public interface TrainingStopListener {
