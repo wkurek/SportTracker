@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.content.AsyncTaskLoader;
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  */
 
 public class TrainingsLoader extends AsyncTaskLoader<List<TrainingEntry>> {
+    private static final String TAG = TrainingsLoader.class.getSimpleName();
     private List<TrainingEntry> trainings;
 
     TrainingsLoader(Context context) {
@@ -37,14 +40,19 @@ public class TrainingsLoader extends AsyncTaskLoader<List<TrainingEntry>> {
         int startTimeIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_START_TIME);
         int secondsNumberIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_SECONDS_NUMBER);
         int distanceIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_DISTANCE);
-        int trackIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_TRACK);
+        int locationsIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_LOCATIONS);
 
         while(cursor.moveToNext()) {
-            TrainingEntry trainingEntry = new TrainingEntry(cursor.getLong(startTimeIndex),
-                    cursor.getLong(secondsNumberIndex), cursor.getDouble(distanceIndex),
-                    cursor.getString(trackIndex));
+            try {
+                TrainingEntry trainingEntry = new TrainingEntry(cursor.getString(locationsIndex),
+                        cursor.getLong(startTimeIndex), cursor.getLong(secondsNumberIndex),
+                        cursor.getDouble(distanceIndex));
 
-            data.add(trainingEntry);
+                data.add(trainingEntry);
+
+            } catch (JSONException e) {
+                Log.i(TAG, "Error while creating TrainingEntry object.");
+            }
         }
 
         cursor.close();

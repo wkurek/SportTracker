@@ -100,18 +100,26 @@ public class SummaryActivity extends AppCompatActivity {
      * TrainingSaveTask is invoked here, all required parameters are passed to it.
      */
     private void saveTraining() {
-        DbHelper dbHelper = new DbHelper(this);
+        DbHelper dbHelper = new DbHelper(getApplicationContext());
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle == null) return;
+        if(bundle == null) {
+            Log.i(TAG, "Error while inserting training. Bundle is equal to null.");
+            return;
+        }
+
+        //Get values which describes training
         long startTime = bundle.getLong(START_TIME_KEY);
         long secondsNumber = bundle.getLong(SECONDS_NUMBER_KEY);
         double distance = bundle.getDouble(DISTANCE_KEY);
         ArrayList<Geolocation> locations = bundle.getParcelableArrayList(LOCATION_ARRAY_LIST_KEY);
 
+        TrainingEntry trainingEntry = new TrainingEntry(locations, startTime, secondsNumber, distance);
+
+
         Log.i(TAG, "Invoking TrainingSaveTask.");
-        TrainingSaveTask trainingSaveTask = new TrainingSaveTask(dbHelper, locations, distance);
-        trainingSaveTask.execute(startTime, secondsNumber);
+        TrainingSaveTask trainingSaveTask = new TrainingSaveTask(dbHelper, trainingEntry);
+        trainingSaveTask.execute();
 
         //Navigate to MainActivity
         NavUtils.navigateUpFromSameTask(this);

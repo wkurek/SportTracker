@@ -3,26 +3,42 @@ package com.wkurek.sporttracker;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.PolyUtil;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Wojtek on 14.04.2018.
+ * Class which represents record in "trainings" table in database.
+ * It is used when inserting and fetching trainings.
+ *
+ * Class creates interface that simplify conversion between different data formats
+ * which are used in database (JSON, PolyLine encoding) and JAVA data types.
  */
 
-public class TrainingEntry {
-    private long startTime, secondsNumber;
+class TrainingEntry {
+    private ArrayList<Geolocation> locations;
+    private long startTimestamp, secondsNumber;
     private double distance;
-    private List<LatLng> track;
 
-    TrainingEntry(long startTime, long secondsNumber, double distance, String encodedTrack) {
-        this.startTime = startTime;
+    TrainingEntry(ArrayList<Geolocation> locations, long startTimestamp, long secondsNumber,
+                         double distance) {
+        this.startTimestamp = startTimestamp;
         this.secondsNumber = secondsNumber;
         this.distance = distance;
-        this.track = PolyUtil.decode(encodedTrack);
+        this.locations = locations;
+    }
+
+    TrainingEntry(String json, long startTimestamp, long secondsNumber,
+                         double distance) throws JSONException {
+        this.startTimestamp = startTimestamp;
+        this.secondsNumber = secondsNumber;
+        this.distance = distance;
+        this.locations = JSONLocationGenerator.generateLocationList(json);
     }
 
     long getStartTime() {
-        return startTime;
+        return startTimestamp;
     }
 
     long getSecondsNumber() {
@@ -33,7 +49,21 @@ public class TrainingEntry {
         return distance;
     }
 
-    List<LatLng> getTrack() {
-        return track;
+    List<LatLng> getTrack() throws NullPointerException {
+        if(locations.isEmpty()) throw new NullPointerException("Empty locations list.");
+
+        List<LatLng> latLngList = new ArrayList<>();
+        for(Geolocation location : locations) {
+            latLngList.add(location.getLatLng());
+        }
+        return latLngList;
+    }
+
+    String getEncodedTrack() {
+        return PolyUtil.encode(this.getTrack());
+    }
+
+    String getJSONLocations() {
+        return JSONLocationGenerator.generateJSONArray(this.locations).toString();
     }
 }

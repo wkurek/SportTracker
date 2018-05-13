@@ -1,7 +1,5 @@
 package com.wkurek.sporttracker;
 
-import android.location.Location;
-
 import java.util.ArrayList;
 
 /**

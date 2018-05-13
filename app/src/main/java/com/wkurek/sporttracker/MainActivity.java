@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Set up training archive as an initial tab
-        navigationView.setCheckedItem(R.id.main_nav_settings);
-        navigationView.getMenu().performIdentifierAction(R.id.main_nav_settings, 0);
+        navigationView.setCheckedItem(R.id.main_nav_trainings);
+        navigationView.getMenu().performIdentifierAction(R.id.main_nav_trainings, 0);
         replaceFragment(currentFragment);
 
         FloatingActionButton floatingActionButton = findViewById(R.id.main_fab);
