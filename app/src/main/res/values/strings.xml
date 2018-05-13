@@ -40,5 +40,7 @@
     <string name="main_nav_settings_title">Settings</string>
 
     <string name="personal_hall_of_fame">Hall of fame</string>
+    <string name="personal_monthly_summary_header">This month summary</string>
+    <string name="personal_total_summary_header">Total summary</string>
 
 </resources>

@@ -1,8 +1,8 @@
 package com.wkurek.sporttracker;
 
 import android.content.ContentValues;
-import android.location.Location;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.PolyUtil;
@@ -16,10 +16,10 @@ import java.util.List;
 
 public class TrainingSaveTask extends AsyncTask<Long, Void, Void> {
     private DbHelper dbHelper;
-    private ArrayList<Location> locations;
+    private ArrayList<Geolocation> locations;
     private double distance;
 
-    TrainingSaveTask(DbHelper dbHelper, ArrayList<Location> locations, double distance) {
+    TrainingSaveTask(DbHelper dbHelper, ArrayList<Geolocation> locations, double distance) {
         this.dbHelper = dbHelper;
         this.locations = locations;
         this.distance = distance;
@@ -27,13 +27,13 @@ public class TrainingSaveTask extends AsyncTask<Long, Void, Void> {
 
     @Override
     protected Void doInBackground(Long... longs) {
-        if(longs.length < 2 || locations == null || locations.size() < 2) return null;
+        if(longs.length < 2 || locations == null) return null;
 
 
         //Generate List of LatLng objects required to PolyUtil encode method
         List<LatLng> latLngList = new ArrayList<>();
-        for(Location location : locations) {
-            latLngList.add(new LatLng(location.getLatitude(), location.getLongitude()));
+        for(Geolocation location : locations) {
+            latLngList.add(location.getLatLng());
         }
 
         ContentValues values = new ContentValues();

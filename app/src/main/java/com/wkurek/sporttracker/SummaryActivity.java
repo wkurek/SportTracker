@@ -107,7 +107,7 @@ public class SummaryActivity extends AppCompatActivity {
         long startTime = bundle.getLong(START_TIME_KEY);
         long secondsNumber = bundle.getLong(SECONDS_NUMBER_KEY);
         double distance = bundle.getDouble(DISTANCE_KEY);
-        ArrayList<Location> locations = bundle.getParcelableArrayList(LOCATION_ARRAY_LIST_KEY);
+        ArrayList<Geolocation> locations = bundle.getParcelableArrayList(LOCATION_ARRAY_LIST_KEY);
 
         Log.i(TAG, "Invoking TrainingSaveTask.");
         TrainingSaveTask trainingSaveTask = new TrainingSaveTask(dbHelper, locations, distance);

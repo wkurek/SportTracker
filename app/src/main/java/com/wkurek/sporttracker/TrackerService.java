@@ -6,7 +6,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -37,7 +36,7 @@ public class TrackerService extends Service {
     private LocationCallback locationCallback;
 
 
-    private ArrayList<Location> locationList = new ArrayList<>();
+    private ArrayList<Geolocation> locationList = new ArrayList<>();
     private long startTime;
     private long pauseTime = 0, delay = 0, pausedSecondsNumber = 0;
     private boolean paused = false;
@@ -95,10 +94,10 @@ public class TrackerService extends Service {
                 super.onLocationResult(locationResult);
 
                 if(!locationList.isEmpty()) {
-                    Location lastLocation = locationList.get(locationList.size()-1);
+                    Geolocation lastLocation = locationList.get(locationList.size()-1);
                     distance += lastLocation.distanceTo(locationResult.getLastLocation());
                 }
-                locationList.add(locationResult.getLastLocation());
+                locationList.add(new Geolocation(locationResult.getLastLocation()));
             }
         };
     }
@@ -129,7 +128,7 @@ public class TrackerService extends Service {
     double getVelocity() {
         if(locationList.isEmpty()) return 0.0;
 
-        Location lastLocation = locationList.get(locationList.size()-1);
+        Geolocation lastLocation = locationList.get(locationList.size()-1);
         if(System.currentTimeMillis() - lastLocation.getTime() > 2*LOCATION_REQUEST_INTERVAL_IN_MS)
             return 0.0;
         return lastLocation.getSpeed();
@@ -138,7 +137,7 @@ public class TrackerService extends Service {
     double getAltitude() {
         if(locationList.isEmpty()) return 0.0;
 
-        Location lastLocation = locationList.get(locationList.size()-1);
+        Geolocation lastLocation = locationList.get(locationList.size()-1);
         return lastLocation.getAltitude();
     }
 
@@ -155,13 +154,13 @@ public class TrackerService extends Service {
         if(locationList.isEmpty()) return null;
 
         ArrayList<LatLng> latLngList = new ArrayList<>();
-        for(Location location : locationList) {
-            latLngList.add(new LatLng(location.getLatitude(), location.getLongitude()));
+        for(Geolocation location : locationList) {
+            latLngList.add(location.getLatLng());
         }
         return latLngList;
     }
 
-    ArrayList<Location> getLocationList() {
+    ArrayList<Geolocation> getLocationList() {
         return locationList.isEmpty() ? null : locationList;
     }
 

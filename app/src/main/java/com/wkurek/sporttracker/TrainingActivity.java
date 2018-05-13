@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 
 
-public class TrainingActivity extends AppCompatActivity implements TrainingStopListener{
+public class TrainingActivity extends AppCompatActivity implements TrainingStopListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class TrainingActivity extends AppCompatActivity implements TrainingStopL
 
 
     @Override
-    public void onTrainingStop(long startTime, long secondsNumber, double distance, ArrayList<Location> locations) {
+    public void onTrainingStop(long startTime, long secondsNumber, double distance, ArrayList<Geolocation> locations) {
         Intent serviceIntent = new Intent(this, TrackerService.class);
         stopService(serviceIntent);
 

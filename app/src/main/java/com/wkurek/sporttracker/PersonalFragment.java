@@ -42,30 +42,32 @@ public class PersonalFragment extends Fragment {
 
         Cursor personalBestsCursor = helper.selectPersonalBests();
         if(personalBestsCursor.getCount() == 1) fillHallOfFame(view, personalBestsCursor);
-
-
     }
 
     private void fillTotalSummary(View layout, Cursor cursor) {
-        cursor.moveToFirst();
-
-        int trainingsNumberIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_TRAININGS_NUMBER);
-        int secondsNumberSumIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_SUM_SECONDS_NUMBER);
-        int distanceSumIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_SUM_DISTANCE);
-
-        //TODO: fill TextViews with data. Use NotationGenerator, take values from cursor
-
-        cursor.close();
+        fillSummary(layout, cursor, R.id.personal_total_trainings_number,
+                R.id.personal_total_distance, R.id.personal_total_time);
     }
 
     private void fillMonthSummary(View layout, Cursor cursor) {
+        fillSummary(layout, cursor, R.id.personal_monthly_trainings_number,
+                R.id.personal_monthly_distance, R.id.personal_monthly_time);
+    }
+
+    private void fillSummary(View layout, Cursor cursor, int trainingsNumberViewId, int distanceViewId, int timeViewId) {
         cursor.moveToFirst();
 
         int trainingsNumberIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_TRAININGS_NUMBER);
         int secondsNumberSumIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_SUM_SECONDS_NUMBER);
         int distanceSumIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_SUM_DISTANCE);
 
-        //TODO: fill TextViews with data. Use NotationGenerator, take values from cursor
+        TextView trainingsNumberView = layout.findViewById(trainingsNumberViewId);
+        TextView distanceView = layout.findViewById(distanceViewId);
+        TextView timeView = layout.findViewById(timeViewId);
+
+        trainingsNumberView.setText(NotationGenerator.generateTrainingsNumberNotation(cursor.getInt(trainingsNumberIndex)));
+        distanceView.setText(NotationGenerator.generateDistanceNotation(cursor.getDouble(distanceSumIndex)));
+        timeView.setText(NotationGenerator.generateTimeNotation(cursor.getLong(secondsNumberSumIndex)));
 
         cursor.close();
     }
@@ -85,6 +87,10 @@ public class PersonalFragment extends Fragment {
         cursor.close();
     }
 
+    /**
+     * Function which calculates the timestamp of the first day of current month.
+     * @return timestamp of the first day of current month
+     */
     private long getCurrentMonthTimestamp() {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();

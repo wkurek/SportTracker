@@ -52,7 +52,7 @@ public class SummaryStatsFragment extends Fragment {
         timeView.setText(NotationGenerator.generateTimeNotation(secondsNumber));
         distanceView.setText(NotationGenerator.generateDistanceNotation(distance));
 
-        ArrayList<Location> locationList = arguments.getParcelableArrayList(
+        ArrayList<Geolocation> locationList = arguments.getParcelableArrayList(
                 SummaryActivity.LOCATION_ARRAY_LIST_KEY);
 
         double maxVelocity = 0.0, avgVelocity = 0.0, maxAltitude = 0.0, avgAltitude = 0.0;
@@ -62,7 +62,7 @@ public class SummaryStatsFragment extends Fragment {
 
             double altitudeSum = 0.0;
 
-            for(Location location : locationList) {
+            for(Geolocation location : locationList) {
                 if(location.getSpeed() > maxVelocity) maxVelocity = location.getSpeed();
                 if(location.getAltitude() > maxAltitude) maxAltitude = location.getAltitude();
 

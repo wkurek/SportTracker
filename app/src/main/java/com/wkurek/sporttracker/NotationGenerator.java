@@ -34,4 +34,9 @@ class NotationGenerator {
                 .format(new Date(secondsNumber));
     }
 
+    static String generateTrainingsNumberNotation(int trainingsNumber) {
+        if(trainingsNumber != 1) {
+            return String.format(Locale.GERMANY, "%d trainings", trainingsNumber);
+        } else return "1 training";
+    }
 }

@@ -3,6 +3,7 @@ package com.wkurek.sporttracker;
 import android.content.Context;
 import android.database.Cursor;
 import android.content.AsyncTaskLoader;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,8 @@ public class TrainingsLoader extends AsyncTaskLoader<List<TrainingEntry>> {
             cursor.close();
             return null;
         }
+
+        Log.i("TEST", "Loader");
 
         int startTimeIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_START_TIME);
         int secondsNumberIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_SECONDS_NUMBER);

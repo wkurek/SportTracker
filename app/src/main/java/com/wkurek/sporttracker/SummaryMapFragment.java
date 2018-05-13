@@ -28,7 +28,7 @@ public class SummaryMapFragment extends Fragment implements OnMapReadyCallback{
     private static final String MAP_VIEW_BUNDLE_KEY = "MapView Bundle";
 
     private MapView mapView;
-    private List<Location> locationList;
+    private List<Geolocation> locationList;
 
     public SummaryMapFragment() {}
 
@@ -61,8 +61,8 @@ public class SummaryMapFragment extends Fragment implements OnMapReadyCallback{
             PolylineOptions polylineOptions = new PolylineOptions()
                     .color(getResources().getColor(R.color.colorAccent));
 
-            for(Location location : locationList) {
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            for(Geolocation location : locationList) {
+                LatLng latLng = location.getLatLng();
 
                 latLngBuilder.include(latLng);
                 polylineOptions.add(latLng);

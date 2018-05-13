@@ -18,6 +18,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String TAG = DbHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "SportTracker.db";
     private static final int DATABASE_VERSION = 1;
+    private static final Object lock = new Object();
 
     private static final String SQL_CREATE_QUERY = "CREATE TABLE " + TrainingContract.TABLE_NAME +
             " (" + BaseColumns._ID + " INTEGER PRIMARY KEY, " + TrainingContract.COLUMN_NAME_START_TIME +
@@ -65,9 +66,11 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
    private Cursor select(String table, String[] columns,  String orderBy) {
-       SQLiteDatabase database = this.getReadableDatabase();
-       database.enableWriteAheadLogging();
-       return database.query(table, columns, null, null, null, null, orderBy);
+        synchronized (lock) {
+            SQLiteDatabase database = this.getReadableDatabase();
+            database.enableWriteAheadLogging();
+            return database.query(table, columns, null, null, null, null, orderBy);
+        }
    }
 
    Cursor selectAllTrainings() {
@@ -80,37 +83,53 @@ public class DbHelper extends SQLiteOpenHelper {
    }
 
    void insertTraining(ContentValues values) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        database.enableWriteAheadLogging();
-        long result = database.insert(TrainingContract.TABLE_NAME, null, values);
+        synchronized (lock) {
+            SQLiteDatabase database = this.getWritableDatabase();
+            database.enableWriteAheadLogging();
 
-        if(result > 0) {
-            Log.i(TAG, "Training inserted to database correctly.");
-        } else Log.i(TAG, "Error while inserting training to database.");
+            Log.i("TEST", "Zaczynam wstawiać");
+            long result = database.insert(TrainingContract.TABLE_NAME, null, values);
+            try {
+                Thread.sleep(7000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.i("TEST", "Koniec  wstawiania");
+
+            if(result > 0) {
+                Log.i(TAG, "Training inserted to database correctly.");
+            } else Log.i(TAG, "Error while inserting training to database.");
+
+            database.close();
+        }
    }
 
    Cursor selectPeriodSummary(long startTime) {
-       String query = String.format(Locale.GERMANY, "SELECT COUNT(%s) AS %s, SUM(%s) AS %s, SUM(%s) AS %s FROM %s WHERE %s > %d;",
-               BaseColumns._ID, TrainingContract.COLUMN_NAME_TRAININGS_NUMBER, TrainingContract.COLUMN_NAME_DISTANCE,
-               TrainingContract.COLUMN_NAME_SUM_DISTANCE, TrainingContract.COLUMN_NAME_SECONDS_NUMBER,
-               TrainingContract.COLUMN_NAME_SUM_SECONDS_NUMBER, TrainingContract.TABLE_NAME,
-               TrainingContract.COLUMN_NAME_START_TIME, startTime);
+       synchronized (lock) {
+           String query = String.format(Locale.GERMANY, "SELECT COUNT(%s) AS %s, SUM(%s) AS %s, SUM(%s) AS %s FROM %s WHERE %s > %d;",
+                   BaseColumns._ID, TrainingContract.COLUMN_NAME_TRAININGS_NUMBER, TrainingContract.COLUMN_NAME_DISTANCE,
+                   TrainingContract.COLUMN_NAME_SUM_DISTANCE, TrainingContract.COLUMN_NAME_SECONDS_NUMBER,
+                   TrainingContract.COLUMN_NAME_SUM_SECONDS_NUMBER, TrainingContract.TABLE_NAME,
+                   TrainingContract.COLUMN_NAME_START_TIME, startTime);
 
-       SQLiteDatabase database = this.getReadableDatabase();
-       database.enableWriteAheadLogging();
+           SQLiteDatabase database = this.getReadableDatabase();
+           database.enableWriteAheadLogging();
 
-       return database.rawQuery(query, null);
+           return database.rawQuery(query, null);
+       }
    }
 
    Cursor selectPersonalBests() {
-       String query = String.format(Locale.GERMANY, "SELECT MAX(%s) AS %s, MAX(%s) AS %s FROM %s;",
-               TrainingContract.COLUMN_NAME_DISTANCE, TrainingContract.COLUMN_NAME_MAX_DISTANCE,
-               TrainingContract.COLUMN_NAME_SECONDS_NUMBER, TrainingContract.COLUMN_NAME_MAX_SECONDS_NUMBER,
-               TrainingContract.TABLE_NAME);
+        synchronized (lock) {
+            String query = String.format(Locale.GERMANY, "SELECT MAX(%s) AS %s, MAX(%s) AS %s FROM %s;",
+                    TrainingContract.COLUMN_NAME_DISTANCE, TrainingContract.COLUMN_NAME_MAX_DISTANCE,
+                    TrainingContract.COLUMN_NAME_SECONDS_NUMBER, TrainingContract.COLUMN_NAME_MAX_SECONDS_NUMBER,
+                    TrainingContract.TABLE_NAME);
 
-       SQLiteDatabase database = this.getReadableDatabase();
-       database.enableWriteAheadLogging();
+            SQLiteDatabase database = this.getReadableDatabase();
+            database.enableWriteAheadLogging();
 
-       return database.rawQuery(query, null);
+            return database.rawQuery(query, null);
+        }
    }
 }

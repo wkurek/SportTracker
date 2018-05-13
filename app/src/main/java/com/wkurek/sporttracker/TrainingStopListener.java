@@ -10,5 +10,5 @@ import java.util.ArrayList;
  */
 
 public interface TrainingStopListener {
-    void onTrainingStop(long startTime, long secondsNumber, double distance, ArrayList<Location> locations);
+    void onTrainingStop(long startTime, long secondsNumber, double distance, ArrayList<Geolocation> locations);
 }
