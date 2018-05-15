@@ -2,6 +2,7 @@ package com.wkurek.sporttracker;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -216,8 +217,14 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
                 new OnItemClickListener() {
                     @Override
                     public void onClick(View item, int position) {
-                        //TODO: show details of training
-                        Log.i(TAG, "Click at position:\t" + Integer.toString(position));
+                        TrainingEntry trainingEntry = trainings.get(position);
+
+                        Intent activityIntent = new Intent(getActivity(), DetailsActivity.class);
+                            activityIntent.putExtra(SummaryActivity.SECONDS_NUMBER_KEY, trainingEntry.getSecondsNumber());
+                            activityIntent.putExtra(SummaryActivity.START_TIME_KEY, trainingEntry.getStartTime());
+                            activityIntent.putExtra(SummaryActivity.DISTANCE_KEY, trainingEntry.getDistance());
+                            activityIntent.putExtra(SummaryActivity.LOCATION_ARRAY_LIST_KEY, trainingEntry.getLocations());
+                        startActivity(activityIntent);
                     }
 
                     @Override
@@ -253,4 +260,5 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
         Log.i(TAG, "Refreshing trainings data set.");
         getLoaderManager().restartLoader(ARCHIVE_TRAININGS_LOADER_ID, null, this);
     }
+
 }

@@ -66,4 +66,8 @@ class TrainingEntry {
     String getJSONLocations() {
         return JSONLocationGenerator.generateJSONArray(this.locations).toString();
     }
+
+    ArrayList<Geolocation> getLocations() {
+        return locations;
+    }
 }

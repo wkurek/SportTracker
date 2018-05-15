@@ -43,4 +43,7 @@
     <string name="personal_monthly_summary_header">This month summary</string>
     <string name="personal_total_summary_header">Total summary</string>
 
+    <string name="details_menu_delete_title">delete training</string>
+    <string name="details_menu_title">Training Details</string>
+
 </resources>

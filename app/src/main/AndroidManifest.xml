@@ -25,15 +25,17 @@
             android:exported="false" />
 
         <activity android:name=".TrainingActivity" />
-
         <activity
             android:name=".SummaryActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB3KqWhoV_iovD5-4SU7RKt2tIU81qZa-s" />
 
+        <activity
+            android:name=".DetailsActivity"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>
