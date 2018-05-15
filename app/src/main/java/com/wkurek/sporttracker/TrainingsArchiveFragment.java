@@ -204,7 +204,7 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.archive_recycler_view);
@@ -216,12 +216,20 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
                 new OnItemClickListener() {
                     @Override
                     public void onClick(View item, int position) {
+                        //TODO: show details of training
                         Log.i(TAG, "Click at position:\t" + Integer.toString(position));
                     }
 
                     @Override
                     public void onLongClick(View item, int position) {
-                        Log.i(TAG, "LongClick at position:\t" + Integer.toString(position));
+                        //TODO: ask user if he wants to remove training
+
+                        //Delete training
+                        TrainingEntry deleteTrainingEntry = trainings.remove(position);
+                        adapter.notifyDataSetChanged();
+
+                        DbHelper dbHelper = new DbHelper(view.getContext());
+                        dbHelper.deleteTraining(deleteTrainingEntry.getStartTime());
                     }
                 }));
 
