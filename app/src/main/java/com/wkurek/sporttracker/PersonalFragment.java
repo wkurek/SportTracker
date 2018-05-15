@@ -18,7 +18,6 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class PersonalFragment extends Fragment {
-    private static final String TAG = PersonalFragment.class.getSimpleName();
 
     public PersonalFragment() {}
 

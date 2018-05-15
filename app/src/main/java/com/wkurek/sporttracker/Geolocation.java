@@ -17,14 +17,10 @@ public class Geolocation implements Parcelable{
     private long timestamp;
 
     public Geolocation() {
-        this.lat = 0.0;
-        this.lng = 0.0;
-        this.altitude = 0.0;
-        this.velocity = 0.0;
-        this.timestamp = 0;
+        this(0.0, 0.0, 0.0, 0.0, 0);
     }
 
-    public Geolocation(double lat, double lng, double altitude, double velocity, long timestamp) {
+    Geolocation(double lat, double lng, double altitude, double velocity, long timestamp) {
         this.lat = lat;
         this.lng = lng;
         this.altitude = altitude;
@@ -33,7 +29,7 @@ public class Geolocation implements Parcelable{
         this.timestamp = timestamp;
     }
 
-    public Geolocation(Location location) {
+    Geolocation(Location location) {
         this.lat = location.getLatitude();
         this.lng = location.getLongitude();
         this.altitude = location.getAltitude();
@@ -41,19 +37,19 @@ public class Geolocation implements Parcelable{
         this.timestamp = location.getTime();
     }
 
-    public double getLatitude() {
+    double getLatitude() {
         return lat;
     }
 
-    public double getLongitude() {
+    double getLongitude() {
         return lng;
     }
 
-    public double getAltitude() {
+    double getAltitude() {
         return altitude;
     }
 
-    public double getSpeed() {
+    double getSpeed() {
         return velocity;
     }
 
@@ -76,7 +72,7 @@ public class Geolocation implements Parcelable{
         dest.writeLong(this.timestamp);
     }
 
-    protected Geolocation(Parcel in) {
+    private Geolocation(Parcel in) {
         this.lat = in.readDouble();
         this.lng = in.readDouble();
         this.altitude = in.readDouble();
@@ -96,7 +92,7 @@ public class Geolocation implements Parcelable{
         }
     };
 
-    public LatLng getLatLng() {
+    LatLng getLatLng() {
         return new LatLng(this.lat, this.lng);
     }
 

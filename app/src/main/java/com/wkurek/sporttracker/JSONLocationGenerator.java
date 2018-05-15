@@ -1,7 +1,5 @@
 package com.wkurek.sporttracker;
 
-import android.location.Location;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

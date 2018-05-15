@@ -1,6 +1,7 @@
 package com.wkurek.sporttracker;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,7 +11,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -39,6 +42,7 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
 
     private List<TrainingEntry> trainings = new ArrayList<>();
     private TrainingArchiveAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     public Loader<List<TrainingEntry>> onCreateLoader(int i, Bundle bundle) {
@@ -146,6 +150,50 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
 
     }
 
+    class OnTrainingTouchListener implements RecyclerView.OnItemTouchListener {
+        private GestureDetector gestureDetector;
+
+        OnTrainingTouchListener(Context context, final OnItemClickListener listener) {
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    View item = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if(item != null && listener != null) {
+                        listener.onClick(item, recyclerView.getChildAdapterPosition(item));
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View item = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if(item != null && listener != null) {
+                        listener.onLongClick(item, recyclerView.getChildAdapterPosition(item));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            if(gestureDetector != null) {
+                gestureDetector.onTouchEvent(e);
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+    }
+
     public TrainingsArchiveFragment() {}
 
     @Override
@@ -159,10 +207,23 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.archive_recycler_view);
+        recyclerView = view.findViewById(R.id.archive_recycler_view);
         adapter = new TrainingArchiveAdapter(trainings);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        recyclerView.addOnItemTouchListener(new OnTrainingTouchListener(view.getContext(),
+                new OnItemClickListener() {
+                    @Override
+                    public void onClick(View item, int position) {
+                        Log.i(TAG, "Click at position:\t" + Integer.toString(position));
+                    }
+
+                    @Override
+                    public void onLongClick(View item, int position) {
+                        Log.i(TAG, "LongClick at position:\t" + Integer.toString(position));
+                    }
+                }));
 
         final SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.archive_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

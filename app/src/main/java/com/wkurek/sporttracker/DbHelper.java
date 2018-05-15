@@ -86,15 +86,7 @@ public class DbHelper extends SQLiteOpenHelper {
         synchronized (lock) {
             SQLiteDatabase database = this.getWritableDatabase();
             database.enableWriteAheadLogging();
-
-            Log.i("TEST", "Zaczynam wstawiać");
             long result = database.insert(TrainingContract.TABLE_NAME, null, values);
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.i("TEST", "Koniec  wstawiania");
 
             if(result > 0) {
                 Log.i(TAG, "Training inserted to database correctly.");
@@ -130,6 +122,14 @@ public class DbHelper extends SQLiteOpenHelper {
             database.enableWriteAheadLogging();
 
             return database.rawQuery(query, null);
+        }
+   }
+
+   int deleteTraining(Long startTimestamp) {
+        synchronized (lock) {
+            SQLiteDatabase database = this.getWritableDatabase();
+            return database.delete(TrainingContract.TABLE_NAME, TrainingContract.COLUMN_NAME_START_TIME + "=?",
+                    new String[]{startTimestamp.toString()});
         }
    }
 }
