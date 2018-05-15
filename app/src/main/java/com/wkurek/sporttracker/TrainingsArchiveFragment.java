@@ -2,6 +2,7 @@ package com.wkurek.sporttracker;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -229,14 +231,9 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
 
                     @Override
                     public void onLongClick(View item, int position) {
-                        //TODO: ask user if he wants to remove training
-
-                        //Delete training
-                        TrainingEntry deleteTrainingEntry = trainings.remove(position);
-                        adapter.notifyDataSetChanged();
-
-                        DbHelper dbHelper = new DbHelper(view.getContext());
-                        dbHelper.deleteTraining(deleteTrainingEntry.getStartTime());
+                        //Prompt user to delete clicked training
+                        AlertDialog dialog = createDeleteDialog(position);
+                        dialog.show();
                     }
                 }));
 
@@ -259,6 +256,34 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
     private void refreshTrainingEntries() {
         Log.i(TAG, "Refreshing trainings data set.");
         getLoaderManager().restartLoader(ARCHIVE_TRAININGS_LOADER_ID, null, this);
+    }
+
+    private AlertDialog createDeleteDialog(final int trainingPosition) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Theme_AppCompat_Light_Dialog);
+        builder.setMessage(R.string.training_delete_dialog_message);
+        builder.setPositiveButton(R.string.training_delete_dialog_positive, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteTraining(trainingPosition);
+                dialog.cancel();
+            }
+        });
+        builder.setNegativeButton(R.string.training_delete_dialog_negative, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        return builder.create();
+    }
+
+    private void deleteTraining(int trainingPosition) {
+        TrainingEntry deleteTrainingEntry = trainings.remove(trainingPosition);
+        adapter.notifyDataSetChanged();
+
+        DbHelper dbHelper = new DbHelper(getActivity());
+        dbHelper.deleteTraining(deleteTrainingEntry.getStartTime());
     }
 
 }
