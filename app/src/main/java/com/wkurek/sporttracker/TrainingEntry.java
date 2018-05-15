@@ -49,6 +49,11 @@ class TrainingEntry {
         return distance;
     }
 
+    /**
+     * Generates training track in form of LatLng object List
+     * @return List of LatLng objects representing geographical points
+     * @throws NullPointerException
+     */
     List<LatLng> getTrack() throws NullPointerException {
         if(locations.isEmpty()) throw new NullPointerException("Empty locations list.");
 
@@ -59,10 +64,18 @@ class TrainingEntry {
         return latLngList;
     }
 
+    /**
+     * Encodes training track to format suitable to be stored in database.
+     * @return encoded training track
+     */
     String getEncodedTrack() {
         return PolyUtil.encode(this.getTrack());
     }
 
+    /**
+     * Generates JSONArray that represents Geolocation objects that are stored in {@link #locations}
+     * @return JSONARRay representing Geolocation objects that are stored in {@link #locations}
+     */
     String getJSONLocations() {
         return JSONLocationGenerator.generateJSONArray(this.locations).toString();
     }

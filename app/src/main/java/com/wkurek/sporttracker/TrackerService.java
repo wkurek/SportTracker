@@ -79,6 +79,9 @@ public class TrackerService extends Service {
         return binder;
     }
 
+    /**
+     * Method creates LocationRequest object which represents app requirements of location permissions.
+     */
     private void createLocationRequest() {
         locationRequest = new LocationRequest();
         locationRequest.setInterval(LOCATION_REQUEST_INTERVAL_IN_MS);
@@ -87,6 +90,9 @@ public class TrackerService extends Service {
         locationRequest.setSmallestDisplacement(LOCATION_REQUEST_SMALLEST_DISPLACEMENT);
     }
 
+    /**
+     * Method creates LocationCallback which will be reacting on location change events.
+     */
     private void createLocationCallback() {
         locationCallback = new LocationCallback() {
             @Override
@@ -168,6 +174,10 @@ public class TrackerService extends Service {
         return distance/secondsNumber;
     }
 
+    /**
+     * Method generates Notification that represents background service.
+     * @return Notification representing background service
+     */
     @TargetApi(Build.VERSION_CODES.O)
     Notification getServiceNotification() {
         Intent intent = new Intent(this, TrainingActivity.class);

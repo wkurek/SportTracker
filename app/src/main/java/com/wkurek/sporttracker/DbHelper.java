@@ -65,6 +65,14 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase); // and create a new one
     }
 
+    /**
+     * Method executes SELECT query on database.
+     * It is a form of interface to SELECT query, takes only required arguments.
+     * @param table table name
+     * @param columns columns to fetch from database
+     * @param orderBy name of column for SELECT query to be ordered by
+     * @return Cursor containing selected trainings from database
+     */
    private Cursor select(String table, String[] columns,  String orderBy) {
         synchronized (lock) {
             SQLiteDatabase database = this.getReadableDatabase();
@@ -73,6 +81,10 @@ public class DbHelper extends SQLiteOpenHelper {
         }
    }
 
+    /**
+     * Method execute SELECT * query on trainings table. All trainings are fetched from database.
+     * @return Cursor containing all trainings from database
+     */
    Cursor selectAllTrainings() {
         String[] columns = new String[] {TrainingContract.COLUMN_NAME_DISTANCE,
                 TrainingContract.COLUMN_NAME_START_TIME, TrainingContract.COLUMN_NAME_LOCATIONS,
@@ -82,6 +94,10 @@ public class DbHelper extends SQLiteOpenHelper {
         return select(TrainingContract.TABLE_NAME, columns, orderBy);
    }
 
+    /**
+     * Method inserts training into database.
+     * @param values values that describes training
+     */
    void insertTraining(ContentValues values) {
         synchronized (lock) {
             SQLiteDatabase database = this.getWritableDatabase();
@@ -96,6 +112,10 @@ public class DbHelper extends SQLiteOpenHelper {
         }
    }
 
+    /**
+     * Method fetches values that describes particular period of time from database.
+     * @return values that describes particular period of time
+     */
    Cursor selectPeriodSummary(long startTime) {
        synchronized (lock) {
            String query = String.format(Locale.GERMANY, "SELECT COUNT(%s) AS %s, SUM(%s) AS %s, SUM(%s) AS %s FROM %s WHERE %s > %d;",
@@ -111,6 +131,10 @@ public class DbHelper extends SQLiteOpenHelper {
        }
    }
 
+    /**
+     * Method fetches personal best values from database.
+     * @return personal best values
+     */
    Cursor selectPersonalBests() {
         synchronized (lock) {
             String query = String.format(Locale.GERMANY, "SELECT MAX(%s) AS %s, MAX(%s) AS %s FROM %s;",
@@ -125,6 +149,11 @@ public class DbHelper extends SQLiteOpenHelper {
         }
    }
 
+    /**
+     * Method deletes training from database.
+     * @param startTimestamp start timestamp of training. This field can be considered as unique.
+     * @return number of affected by DELETE query rows
+     */
    int deleteTraining(Long startTimestamp) {
         synchronized (lock) {
             SQLiteDatabase database = this.getWritableDatabase();

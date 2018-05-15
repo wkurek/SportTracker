@@ -96,6 +96,11 @@ public class Geolocation implements Parcelable{
         return new LatLng(this.lat, this.lng);
     }
 
+    /**
+     * Calculates distance to function parameter in meters.
+     * @param location geographical point to which we calculate distance
+     * @return distance to function parameter in meters
+     */
     float distanceTo(Location location) {
         float results[] = new float[3];
         Location.distanceBetween(this.lat, this.lng, location.getLatitude(),

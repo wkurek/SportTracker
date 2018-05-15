@@ -31,6 +31,14 @@ public class TrainingActivity extends AppCompatActivity implements TrainingStopL
     }
 
 
+    /**
+     * Method stops training and TrackerService that provides training data.
+     * Training data are passed to SummaryActivity
+     * @param startTime training start timestamp
+     * @param secondsNumber number of seconds training lasted
+     * @param distance training distance in meters
+     * @param locations List of Geolocation object representing geographical points
+     */
     @Override
     public void onTrainingStop(long startTime, long secondsNumber, double distance, ArrayList<Geolocation> locations) {
         Intent serviceIntent = new Intent(this, TrackerService.class);

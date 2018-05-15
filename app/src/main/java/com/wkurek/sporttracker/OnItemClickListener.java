@@ -3,7 +3,7 @@ package com.wkurek.sporttracker;
 import android.view.View;
 
 /**
- * Created by Wojtek on 15.05.2018.
+ * Interface which is used to pass the required reactions on click events.
  */
 
 public interface OnItemClickListener {

@@ -53,6 +53,12 @@ public class SummaryMapFragment extends Fragment implements OnMapReadyCallback{
         mapView.getMapAsync(this);
     }
 
+    /**
+     * Method is invoked when GoogleMap is ready.
+     * Map is filled with data representing training.
+     * Data are shown in form of PolyLine.
+     * @param googleMap GoogleMap object
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         if(locationList != null && locationList.size() > 1) {

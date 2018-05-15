@@ -52,6 +52,12 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
         return new TrainingsLoader(getActivity());
     }
 
+    /**
+     * Function is invoked when new training data are fetched from database.
+     * It's aim is to pass data to {@link #adapter} and in this way populate them in {@link #recyclerView}.
+     * @param loader
+     * @param trainingEntries list of objects representing particular trainings
+     */
     @Override
     public void onLoadFinished(Loader<List<TrainingEntry>> loader, List<TrainingEntry> trainingEntries) {
         trainings.clear();
@@ -64,6 +70,11 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
     @Override
     public void onLoaderReset(Loader<List<TrainingEntry>> loader) {}
 
+    /**
+     * RecyclerView adapter which fills {@link #recyclerView} with training data.
+     * Every training is presented in form of signle view containing map and information
+     * about distance, time and average pace of training.
+     */
     class TrainingArchiveAdapter extends RecyclerView.Adapter<TrainingArchiveAdapter.TrainingViewHolder> {
         private List<TrainingEntry> trainings;
 
@@ -102,6 +113,9 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
                 if(trainingEntry != null) showTrackOnMap();
             }
 
+            /**
+             * Method presents training data on Map. Data is presented as a PolyLine on GoogleMap.
+             */
             private void showTrackOnMap() {
                 PolylineOptions polylineOptions = new PolylineOptions();
                 polylineOptions.color(getResources().getColor(R.color.colorAccent));
@@ -153,6 +167,10 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
 
     }
 
+    /**
+     * Listener that listens and reacts to touch events of views representing trainings.
+     * It is set for {@link #recyclerView}
+     */
     class OnTrainingTouchListener implements RecyclerView.OnItemTouchListener {
         private GestureDetector gestureDetector;
 
@@ -253,11 +271,20 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
         refreshTrainingEntries();
     }
 
+    /**
+     * Method is used to refreshing training data that is used by {@link #adapter}
+     */
     private void refreshTrainingEntries() {
         Log.i(TAG, "Refreshing trainings data set.");
         getLoaderManager().restartLoader(ARCHIVE_TRAININGS_LOADER_ID, null, this);
     }
 
+    /**
+     * Builds and creates AlertDialog which is prompt to user to delete training.
+     * Function separates the process of building Dialog.
+     * @param trainingPosition position of training to delete in {@link #trainings}
+     * @return AlertDialog object which will be show to user
+     */
     private AlertDialog createDeleteDialog(final int trainingPosition) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Theme_AppCompat_Light_Dialog);
         builder.setMessage(R.string.training_delete_dialog_message);
@@ -278,6 +305,10 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
         return builder.create();
     }
 
+    /**
+     * Function aim is to delete particular training from database.
+     * @param trainingPosition position of training in {@link #trainings}
+     */
     private void deleteTraining(int trainingPosition) {
         TrainingEntry deleteTrainingEntry = trainings.remove(trainingPosition);
         adapter.notifyDataSetChanged();

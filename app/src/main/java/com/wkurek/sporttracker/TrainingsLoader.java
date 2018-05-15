@@ -35,8 +35,6 @@ public class TrainingsLoader extends AsyncTaskLoader<List<TrainingEntry>> {
             return null;
         }
 
-        Log.i("TEST", "Loader");
-
         int startTimeIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_START_TIME);
         int secondsNumberIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_SECONDS_NUMBER);
         int distanceIndex = cursor.getColumnIndex(DbHelper.TrainingContract.COLUMN_NAME_DISTANCE);

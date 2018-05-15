@@ -115,6 +115,9 @@ public class TrainingConsoleFragment extends Fragment {
         }
     }
 
+    /**
+     * Method fills all data fields with data in standard notation.
+     */
     private void fillControls() {
         timeView.setText(NotationGenerator.generateTimeNotation(trackerService.getSecondsNumber()));
         distanceView.setText(NotationGenerator.generateDistanceNotation(trackerService.getDistance()));

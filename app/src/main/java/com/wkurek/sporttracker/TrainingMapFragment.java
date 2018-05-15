@@ -90,6 +90,9 @@ public class TrainingMapFragment extends Fragment implements OnMapReadyCallback{
         uiHandler.post(uiTask);
     }
 
+    /**
+     * Method fills GoogleMap with training data in form of PolyLine.
+     */
     private void fillMap() {
         PolylineOptions polylineOptions = new PolylineOptions()
                 .color(getResources().getColor(R.color.colorAccent));
@@ -104,6 +107,9 @@ public class TrainingMapFragment extends Fragment implements OnMapReadyCallback{
 
     }
 
+    /**
+     * Method clears map.
+     */
     private void clearMap() {
         map.clear();
     }

@@ -19,6 +19,11 @@ class JSONLocationGenerator {
     private static final String LAT_KEY = "lat";
     private static final String LNG_KEY = "lng";
 
+    /**
+     * Method convert single Geolocation object to JSONObject.
+     * @param location object to be converted to JSONObject
+     * @return JSONObject representing passed Geolocation object
+     */
     private static JSONObject generateJSONObject(Geolocation location) {
         JSONObject object = new JSONObject();
         try {
@@ -33,6 +38,11 @@ class JSONLocationGenerator {
         return object;
     }
 
+    /**
+     * Method converts List of Geolocation object to JSONArray which is suitable to be stored in database.
+     * @param locations list of Geolocation objects
+     * @return JSONArray representing list of Geolocation objects
+     */
     static JSONArray generateJSONArray(List<Geolocation> locations) {
         if(locations  == null || locations.isEmpty()) return null;
         JSONArray jsonArray = new JSONArray();
@@ -44,6 +54,13 @@ class JSONLocationGenerator {
         return jsonArray;
     }
 
+    /**
+     * Generates List of Geolocation objects basing on json literal.
+     * Reverse operation to {@link #generateJSONArray(List)}
+     * @param json string data in JSON format representing list of Geolocation objects
+     * @return List of Geolocation objects based on json literal
+     * @throws org.json.JSONException
+     */
     static ArrayList<Geolocation> generateLocationList(String json) throws org.json.JSONException {
         if(json.isEmpty()) throw new org.json.JSONException("Empty JSON string.");
         JSONArray jsonArray = new JSONArray(json);

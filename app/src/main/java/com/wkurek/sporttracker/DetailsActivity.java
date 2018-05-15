@@ -49,6 +49,12 @@ public class DetailsActivity extends AppCompatActivity {
         return false;
     }
 
+
+    /**
+     * Method creates PagerAdapter for ViewPager and fill it with Fragments.
+     * It also sets the initial displayed tab.
+     * @param viewPager ViewPager object to be set up
+     */
     private void setUpViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         Bundle args = getIntent().getExtras();

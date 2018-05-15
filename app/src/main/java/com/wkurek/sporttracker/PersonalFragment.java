@@ -1,6 +1,5 @@
 package com.wkurek.sporttracker;
 
-
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -13,10 +12,6 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PersonalFragment extends Fragment {
 
     public PersonalFragment() {}
@@ -43,11 +38,21 @@ public class PersonalFragment extends Fragment {
         if(personalBestsCursor.getCount() == 1) fillHallOfFame(view, personalBestsCursor);
     }
 
+    /**
+     * Fill the fields of TotalSummary Card with data.
+     * @param layout View which fields are to be filled
+     * @param cursor contains trainings data needed to fill this fields
+     */
     private void fillTotalSummary(View layout, Cursor cursor) {
         fillSummary(layout, cursor, R.id.personal_total_trainings_number,
                 R.id.personal_total_distance, R.id.personal_total_time);
     }
 
+    /**
+     * Fill the fields of MonthSummary Card with data.
+     * @param layout View which fields are to be filled
+     * @param cursor contains trainings data needed to fill this fields
+     */
     private void fillMonthSummary(View layout, Cursor cursor) {
         fillSummary(layout, cursor, R.id.personal_monthly_trainings_number,
                 R.id.personal_monthly_distance, R.id.personal_monthly_time);
@@ -71,6 +76,11 @@ public class PersonalFragment extends Fragment {
         cursor.close();
     }
 
+    /**
+     * Fill the fields of Hall of Fame Card with data.
+     * @param layout View which fields are to be filled
+     * @param cursor contains trainings data needed to fill this fields
+     */
     private void fillHallOfFame(View layout, Cursor cursor) {
         cursor.moveToFirst();
 

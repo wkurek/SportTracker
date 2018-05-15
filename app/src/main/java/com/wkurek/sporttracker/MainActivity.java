@@ -139,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
     }
 
+    /**
+     * Method does swap transaction between two Fragments.
+     * @param fragment new Fragment to be placed in FrameLayout
+     */
     private void replaceFragment(Fragment fragment) {
         if(fragment == null) return;
 
@@ -195,11 +199,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method starts TrainingActivity and the training itself.
+     */
     private void startTrainingActivity() {
         Intent intent = new Intent(this, TrainingActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Method creates LocationRequest object which represents app requirements of location permissions.
+     */
     private void createLocationRequest() {
         locationRequest = new LocationRequest();
         locationRequest.setInterval(TrackerService.LOCATION_REQUEST_INTERVAL_IN_MS);
@@ -213,11 +223,19 @@ public class MainActivity extends AppCompatActivity {
         locationSettingsRequest = builder.build();
     }
 
+    /**
+     * Method checks if required location permissions are granted.
+     * @return whether location permissions are granted
+     */
     private boolean checkLocationPermission() {
         int status = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         return status == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * This method is invoked when urgent location permissions are not granted.
+     * It's aim is to request user for these permissions.
+     */
     private void requestLocationPermission() {
         boolean shouldShowRationale = ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
@@ -263,6 +281,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method creates NotificationChannel which is used for displaying notifications on devices
+     * with Android Oreo and newer.
+     */
     @TargetApi(Build.VERSION_CODES.O)
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -288,6 +310,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method shows Toast with passed text.
+     * @param context Contex in which this Toast is showed
+     * @param resId id of message string resource
+     */
     public static void showToast(Context context, int resId) {
         Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
     }
