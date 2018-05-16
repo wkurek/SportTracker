@@ -1,6 +1,6 @@
 package com.wkurek.sporttracker;
 
-import android.location.Location;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
@@ -116,13 +116,13 @@ public class SummaryActivity extends AppCompatActivity {
 
         TrainingEntry trainingEntry = new TrainingEntry(locations, startTime, secondsNumber, distance);
 
-
         Log.i(TAG, "Invoking TrainingSaveTask.");
         TrainingSaveTask trainingSaveTask = new TrainingSaveTask(dbHelper, trainingEntry);
         trainingSaveTask.execute();
 
-        //Navigate to MainActivity
-        NavUtils.navigateUpFromSameTask(this);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
 
