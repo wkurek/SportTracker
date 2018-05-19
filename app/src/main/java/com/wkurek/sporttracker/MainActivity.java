@@ -105,10 +105,6 @@ public class MainActivity extends AppCompatActivity {
                         currentFragment = new TrainingsArchiveFragment();
                         break;
                     }
-                    case R.id.main_nav_settings: {
-                        currentFragment = new SettingsFragment();
-                        break;
-                    }
                     default: {
                         currentFragment = null;
                         return false;

@@ -55,16 +55,18 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
     /**
      * Function is invoked when new training data are fetched from database.
      * It's aim is to pass data to {@link #adapter} and in this way populate them in {@link #recyclerView}.
-     * @param loader
+     * @param loader trainings list loader
      * @param trainingEntries list of objects representing particular trainings
      */
     @Override
     public void onLoadFinished(Loader<List<TrainingEntry>> loader, List<TrainingEntry> trainingEntries) {
-        trainings.clear();
-        trainings.addAll(trainingEntries);
+        if(trainingEntries != null) {
+            trainings.clear();
+            trainings.addAll(trainingEntries);
 
-        Log.i(TAG, String.format(Locale.GERMANY, "Trainings number: %d", trainings.size()));
-        if(adapter != null) adapter.notifyDataSetChanged();
+            Log.i(TAG, String.format(Locale.GERMANY, "Trainings number: %d", trainings.size()));
+            if(adapter != null) adapter.notifyDataSetChanged();
+        }
     }
 
     @Override

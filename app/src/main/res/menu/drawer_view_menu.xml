@@ -10,10 +10,6 @@
             android:id="@+id/main_nav_trainings"
             android:title="@string/main_nav_trainings_title"
             android:icon="@drawable/ic_distance"/>
-        <item
-            android:id="@+id/main_nav_settings"
-            android:title="@string/main_nav_settings_title"
-            android:icon="@drawable/ic_settings"/>
 
     </group>
 

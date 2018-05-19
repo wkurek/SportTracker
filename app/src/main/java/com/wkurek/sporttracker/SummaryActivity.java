@@ -85,10 +85,9 @@ public class SummaryActivity extends AppCompatActivity {
             SummaryMapFragment summaryMapFragment = new SummaryMapFragment();
             summaryMapFragment.setArguments(bundle);
 
-        //TODO: add proper fragments to adapter
+
         pagerAdapter.addFragment(summaryMapFragment, getString(R.string.map_tab));
         pagerAdapter.addFragment(summaryStatsFragment, getString(R.string.stats_tab));
-        //pagerAdapter.addFragment(summaryStatsFragment, getString(R.string.chart_tab));
 
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(1); //Set middle tab as an initial one

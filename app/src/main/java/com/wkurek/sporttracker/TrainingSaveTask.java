@@ -3,7 +3,6 @@ package com.wkurek.sporttracker;
 import android.content.ContentValues;
 import android.os.AsyncTask;
 
-
 /**
  * Background Task which aim is to insert training into local SQLite database.
  */
