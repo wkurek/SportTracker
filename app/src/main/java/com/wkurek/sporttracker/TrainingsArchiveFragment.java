@@ -74,7 +74,7 @@ public class TrainingsArchiveFragment extends Fragment implements LoaderManager.
 
     /**
      * RecyclerView adapter which fills {@link #recyclerView} with training data.
-     * Every training is presented in form of signle view containing map and information
+     * Every training is presented in form of single view containing map and information
      * about distance, time and average pace of training.
      */
     class TrainingArchiveAdapter extends RecyclerView.Adapter<TrainingArchiveAdapter.TrainingViewHolder> {
